@@ -1,40 +1,11 @@
-import { translate } from "@vitalets/google-translate-api";
 import { Faq } from "../models/faqs.js";
 import { faqSchema } from "./validation.js";
-
-export const getFaq = async (req, res) => {
-
-    try {
-        const { lang }= req.query
-        console.log(lang);
-
-        const faqs = await Faq.find();
-
-        if (!faqs.length) {
-            return res.status(404).json({
-                message: 'No FAQs found at this time.',
-            });
-        }
-
-        return res.status(200).json({
-            message: 'FAQs retrieved successfully.',
-            faq: faqs
-        });
-
-    } catch (error) {
-        console.error("Error retrieving FAQs:", error);
-
-        return res.json({
-            message: 'A server error occurred. Please try again later.'
-        });
-    }
-}
+import { translate } from "@vitalets/google-translate-api";
 
 export const postFaq = async (req, res) => {
     try {
 
         const { value, error } = faqSchema.validate(req.body);
-
         if (error) {
             console.log(error.details);
             return res.status(400).json({ message: error.details[0].message });
@@ -57,7 +28,7 @@ export const postFaq = async (req, res) => {
         const answer_hi= translate(value.answer, { to: 'hi' });
         const answer_bn= translate(value.answer, { to: 'bn' });
 
-        const [qu_hi, qu_bn, an_hi, an_bn]= await Promise.all(question_hi,question_bn,answer_hi,answer_bn)
+        const [qu_hi, qu_bn, an_hi, an_bn]= await Promise.all([question_hi,question_bn,answer_hi,answer_bn])
 
         const newFaq = await Faq.create({
             question:{
