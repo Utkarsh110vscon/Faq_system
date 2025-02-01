@@ -1,8 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import { configDotenv } from 'dotenv';
 
 const app= express()
-const port= 3000;
+configDotenv();
+
+const port= process.env.PORT;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
