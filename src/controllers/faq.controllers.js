@@ -1,14 +1,14 @@
 import { translate } from "@vitalets/google-translate-api";
 import { Faq } from "../models/faqs.js";
 import { faqSchema } from "./validation.js";
-import { FaqHi } from "../models/faqHi.model.js";
-import { FaqBn } from "../models/faqBn.model.js";
 
 export const getFaq = async (req, res) => {
 
     try {
+        const { lang }= req.query
+        console.log(lang);
+
         const faqs = await Faq.find();
-        console.log(faqs);
 
         if (!faqs.length) {
             return res.status(404).json({
@@ -52,37 +52,29 @@ export const postFaq = async (req, res) => {
             })
         }
 
-        const question_hi= await translate(value.question, { to: 'hi' });
-        const question_bn= await translate(value.question, { to: 'bn' });
-        
-        const answer_hi= await translate(value.answer, { to: 'hi' });
-        const answer_bn= await translate(value.answer, { to: 'bn' });
+        const question_hi= translate(value.question, { to: 'hi' });
+        const question_bn= translate(value.question, { to: 'bn' });
+        const answer_hi= translate(value.answer, { to: 'hi' });
+        const answer_bn= translate(value.answer, { to: 'bn' });
 
-       console.log(question_hi.text+':'+answer_hi.text);
-       console.log(question_bn.text+':'+answer_bn.text);
+        const [qu_hi, qu_bn, an_hi, an_bn]= await Promise.all(question_hi,question_bn,answer_hi,answer_bn)
 
         const newFaq = await Faq.create({
-            question: value.question,
-            answer: value.answer,
+            question:{
+                en: value.question,
+                hi: qu_hi.text,
+                bn: qu_bn.text
+            },
+            answer: {
+                en: value.answer,
+                hi: an_hi.text,
+                bn: an_bn.text
+            },
         });
-
-        const newFaqHi= await FaqHi.create({
-            faqHiId:newFaq._id ,
-            question_hi: question_hi.text,
-            answer_hi: answer_hi.text,
-        })
-
-        const newFaqBn= await FaqBn.create({
-            faqBnId: newFaq._id,
-            question_bn:question_bn.text,
-            answer_bn:answer_bn.text,
-        })       
 
         return res.status(201).json({
             message: 'Faq question successfully created',
             faq: newFaq,
-            faqHi: newFaqHi,
-            faqBn: newFaqBn
         })
 
     } catch (error) {

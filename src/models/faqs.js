@@ -2,12 +2,14 @@ import mongoose from "mongoose";
 
 const FaqSchema= new mongoose.Schema({
     question: {
-        type: String,
-        required: true
+        en: { type: String, required: true },
+        hi: { type: String },
+        bn: { type: String },
     },
     answer: {
-        type: String,
-        required: true
+        en: { type: String, required: true },
+        hi: { type: String },
+        bn: { type: String },
     }, 
 });
 
