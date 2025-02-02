@@ -29,8 +29,7 @@ export const getFaq = async (req, res) => {
                 message: 'No FAQs found at this time.',
             });
         }
-
-        await redisClient.set(redisKey, JSON.stringify(faqs), 'EX', 40)
+        await redisClient.set(redisKey, JSON.stringify(faqs), 'EX', 60)
 
         console.log('Serving from MongoDB Database')
         return res.status(200).json({

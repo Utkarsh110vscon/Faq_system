@@ -2,10 +2,12 @@ import { Router } from "express";
 import { getFaq } from "../controllers/faq.get.controller.js";
 import { postFaq } from "../controllers/faq.post.controller.js";
 import { deleteFaq } from "../controllers/faq.del.controller.js";
+import { redisClient } from "../config/redis.config.js";
 
 const router= Router();
 
-router.get('/faq', (req, res) => {
+router.get('/faq', async(req, res) => {
+    const data = await redisClient.keys("*");
     res.json({
         message: 'hello users'
     })

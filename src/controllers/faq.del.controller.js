@@ -1,3 +1,4 @@
+import { redisClient } from "../config/redis.config.js";
 import { Faq } from "../models/faqs.js";
 
 export const deleteFaq = async (req, res) => {
@@ -9,6 +10,8 @@ export const deleteFaq = async (req, res) => {
                 message: 'FAQ NOT FOUND!'
             });
         }
+
+        await redisClient.del(['faq:en', 'faq:hi', 'faq:bn']);
 
         return res.status(204).send();
 
