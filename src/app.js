@@ -31,7 +31,9 @@ app.get("/", async (req, res) => {
     }
 })
 
-app.listen(port, async () => {
-    await connectMongodb();
-    console.log(`Sever is listening to port: ${port}`);
-});
+// app.listen(port, async () => {
+//     await connectMongodb();
+//     console.log(`Sever is listening to port: ${port}`);
+// });
+
+export default app;
