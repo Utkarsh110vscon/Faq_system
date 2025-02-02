@@ -95,7 +95,7 @@ npm run start # For production
 Details about testing are in the project submission document.
 
 ## Deployment
-The application is deployed on Vercel: https://https://admin-panel-for-faq-system.vercel.app
+The application is deployed on Vercel: https://admin-panel-for-faq-system.vercel.app
 
 ## Further Improvements
 - More robust error handling.
