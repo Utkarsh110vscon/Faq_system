@@ -18,8 +18,8 @@ export const getFaq = async (req, res) => {
             {
                 $project:{
                     _id: 1,
-                    answer: { $ifNull: [`$question.${lang}`, '$question.en'] },
-                    question: { $ifNull: [`$answer.${lang}`, '$answer.en'] }
+                    answer: { $ifNull: [`$answer.${lang}`, '$answer.en'] },
+                    question: { $ifNull: [`$question.${lang}`, '$question.en'] }
                 }
             }
         ]);
@@ -30,8 +30,9 @@ export const getFaq = async (req, res) => {
             });
         }
 
-        await redisClient.set(redisKey, JSON.stringify(faqs), 'EX', 60)
+        await redisClient.set(redisKey, JSON.stringify(faqs), 'EX', 40)
 
+        console.log('Serving from MongoDB Database')
         return res.status(200).json({
             message: 'FAQs retrieved successfully.',
             faq: faqs
