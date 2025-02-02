@@ -15,11 +15,13 @@
   "dependencies": {
     "@vitalets/google-translate-api": "^9.2.1",
     "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "google-translate-api": "^2.3.0",
     "ioredis": "^5.4.2",
     "joi": "^17.13.3",
-    "mongoose": "^8.9.6"
+    "mongoose": "^8.9.6",
+    "translate-google": "^1.5.0",
+    "translation-google": "^0.2.1"
   }
 }

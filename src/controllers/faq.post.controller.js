@@ -1,6 +1,7 @@
+import { redisClient } from "../config/redis.config.js";
 import { Faq } from "../models/faqs.js";
 import { faqSchema } from "./validation.js";
-import { translate } from "@vitalets/google-translate-api";
+import translate from "translation-google";
 
 export const postFaq = async (req, res) => {
     try {
@@ -42,6 +43,8 @@ export const postFaq = async (req, res) => {
                 bn: an_bn.text
             },
         });
+
+        await redisClient.del(['faq:en', 'faq:hi', 'faq:bn']);
 
         return res.status(201).json({
             message: 'Faq question successfully created',
